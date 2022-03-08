@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bullry Loading</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Courier New", Courier, monospace;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        overflow: hidden;
+        margin: 0;
+      }
+      .bg {
+        background: url(abc.jpg)
+          no-repeat center center/cover;
+        position: absolute;
+        top: -30px;
+        left: -30px;
+        width: calc(100vw + 60px);
+        height: calc(100vh + 60px);
+        z-index: -1;
+        filter: blur(30px);
+      }
+      .loadingText {
+        font-size: 50px;
+        font-weight: 900;
+        color: #000000;
+      }
+    </style>
+  </head>
+  <body>
+    
+    <div class="bg"></div>
+    <div class="loadingText">0%</div>
+    <script>
+      const loadText = document.querySelector(".loadingText");
+      const bg = document.querySelector(".bg");
+
+      let load = 0;
+
+      let loading = setInterval(blurLoading, 40);
+
+      function blurLoading() {
+        load++;
+        if (load > 99) {
+          clearInterval(loading);
+        }
+        loadText.innerText = `${load}%`;
+        loadText.style.opacity = scale(load, 0, 100, 1, 0);
+        bg.style.filter = `blur(${scale(load, 0, 100, 30, 0)}px)`;
+
+        //map a range of numbers to another range of numbers
+        //https://stackoverflow.com/questions/10756313/javascript-jquery-map-a-range-of-numbers-to-another-range-of-numbers
+        function scale(number, inMin, inMax, outMin, outMax) {
+          return (
+            ((number - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin
+          );
+        }
+      }
+      </script>
+  </body>
+</html>
